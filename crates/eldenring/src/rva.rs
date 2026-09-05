@@ -16,15 +16,15 @@ const LANG_ID_JP: u16 = 0x0011;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum GameVersion {
-    Ww262,
-    Jp2621,
+    Ww270,
+    Jp2701,
 }
 
 impl GameVersion {
     fn from_metadata(product: &str, lang_id: u16, version: &str) -> Option<Self> {
         match (product, lang_id, version) {
-            (NAME, LANG_ID_EN, "2.6.2.0") => Some(Self::Ww262),
-            (NAME, LANG_ID_JP, "2.6.2.1") => Some(Self::Jp2621),
+            (NAME, LANG_ID_EN, "2.7.0.0") => Some(Self::Ww270),
+            (NAME, LANG_ID_JP, "2.7.0.1") => Some(Self::Jp2701),
             _ => None,
         }
     }
@@ -97,8 +97,8 @@ fn detect_version_and_get_rvas(module: &PeView) -> RvaBundle {
 impl RvaBundle {
     fn for_version(version: GameVersion) -> Self {
         match version {
-            GameVersion::Ww262 => rva_ww::RVAS,
-            GameVersion::Jp2621 => rva_jp::RVAS,
+            GameVersion::Ww270 => rva_ww::RVAS,
+            GameVersion::Jp2701 => rva_jp::RVAS,
         }
     }
 }
