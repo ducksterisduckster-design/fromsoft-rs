@@ -1,0 +1,23 @@
+[package]
+name = "sekiro"
+version.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
+readme = false
+description = "Raw structures and bindings for From Software's title Sekiro: Shadows Die Twice"
+
+[dependencies]
+bitfield.workspace = true
+bitflags.workspace = true
+encoding_rs.workspace = true
+pelite.workspace = true
+fromsoftware-shared.workspace = true
+thiserror.workspace = true
+vtable-rs.workspace = true
+windows.workspace = true
+cxx-stl.workspace = true
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc"]
