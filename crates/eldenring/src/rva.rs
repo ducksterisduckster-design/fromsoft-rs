@@ -23,8 +23,8 @@ enum GameVersion {
 impl GameVersion {
     fn from_metadata(product: &str, lang_id: u16, version: &str) -> Option<Self> {
         match (product, lang_id, version) {
-            (NAME, LANG_ID_EN, "2.7.0.0") => Some(Self::Ww270),
-            (NAME, LANG_ID_JP, "2.7.0.1") => Some(Self::Jp2701),
+            (NAME, LANG_ID_EN, "2.7.1.0") => Some(Self::Ww270),
+            (NAME, LANG_ID_JP, "2.7.1.1") => Some(Self::Jp2701),
             _ => None,
         }
     }
