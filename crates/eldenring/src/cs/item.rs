@@ -7,14 +7,48 @@ use shared::{Program, util::IncompleteArrayField};
 use thiserror::Error;
 
 use super::ItemId;
+use crate::dlut::DLFixedVector;
 use crate::rva;
 
 /// The maximum number of entries ER's ItemGive path accepts in one call.
 pub const MAX_ITEMS_PER_GRANT: usize = 10;
 
 #[shared::singleton("MapItemMan")]
+#[repr(C)]
 pub struct MapItemMan {
     // TODO: actual data
+    unk0: [u8; 0xa0],
+    /// The queue for item popups to show.
+    pub item_award_queue: DLFixedVector<MapItemManEntry, 10>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[repr(C)]
+pub struct MapItemManEntry {
+    /// The ID of the item.
+    pub id: ItemId,
+    /// The number of this item that the player received.
+    pub quantity: u32,
+    /// Gem or Ash of War field. `u32::MAX` means no gem.
+    pub gem: u32,
+    unkc: u8,
+    pub is_new_item: bool,
+    pub show_ok_prompt: bool,
+    unkf: u8,
+}
+
+impl MapItemManEntry {
+    pub fn new(id: ItemId, quantity: u32) -> Self {
+        Self {
+            id,
+            quantity,
+            gem: u32::MAX,
+            unkc: 0,
+            is_new_item: true,
+            show_ok_prompt: true,
+            unkf: 0,
+        }
+    }
 }
 
 /// The address for the function call that grants an item to the player with a
@@ -358,6 +392,11 @@ mod tests {
 
     use super::*;
     use crate::cs::ItemCategory;
+
+    #[test]
+    fn map_item_entry_has_expected_size() {
+        assert_eq!(size_of::<MapItemManEntry>(), 0x10);
+    }
 
     #[test]
     fn item_give_layout_matches_er_buffer() {
