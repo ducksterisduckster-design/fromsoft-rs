@@ -6,7 +6,7 @@ use pelite::pe64::Pe;
 use shared::{Program, util::IncompleteArrayField};
 use thiserror::Error;
 
-use super::ItemId;
+use super::{ItemId, OptionalItemId};
 use crate::dlut::DLFixedVector;
 use crate::rva;
 
@@ -268,7 +268,8 @@ impl fmt::Debug for ItemBuffer {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ItemBufferEntry {
     /// The ID of the item that was granted.
-    pub id: ItemId,
+    /// This can be empty for item lots which only set event flags.
+    pub id: OptionalItemId,
 
     /// The number of this item that the player received.
     pub quantity: u32,
@@ -285,7 +286,7 @@ impl ItemBufferEntry {
     /// with this ID.
     pub fn new(id: ItemId, quantity: u32) -> Self {
         Self {
-            id,
+            id: id.into(),
             quantity,
             durability: u32::MAX,
             gem: u32::MAX,
@@ -294,7 +295,7 @@ impl ItemBufferEntry {
 
     fn empty() -> Self {
         Self {
-            id: ItemId::try_from(0).expect("weapon 0 should be a valid item ID"),
+            id: OptionalItemId::NONE,
             quantity: 0,
             durability: u32::MAX,
             gem: u32::MAX,
