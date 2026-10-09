@@ -411,7 +411,7 @@ mod tests {
         let id = ItemId::new(ItemCategory::Goods, 100).unwrap();
         let entry = ItemBufferEntry::from(id);
 
-        assert_eq!(entry.id, id);
+        assert_eq!(entry.id, id.into());
         assert_eq!(entry.quantity, 1);
         assert_eq!(entry.durability, u32::MAX);
         assert_eq!(entry.gem, u32::MAX);
@@ -424,7 +424,7 @@ mod tests {
         let buffer = array.as_ref();
 
         assert_eq!(buffer.len(), 1);
-        assert_eq!(buffer.as_slice()[0].id, id);
+        assert_eq!(buffer.as_slice()[0].id, id.into());
         assert_eq!(buffer.as_slice()[0].quantity, 3);
     }
 
@@ -436,7 +436,7 @@ mod tests {
 
         assert_eq!(offset_of!(ItemGrantCallData<1>, buffer), 0x20);
         assert_eq!(buffer.len(), 1);
-        assert_eq!(buffer.as_slice()[0].id, id);
+        assert_eq!(buffer.as_slice()[0].id, id.into());
         assert_eq!(buffer.as_slice()[0].quantity, 3);
     }
 }
